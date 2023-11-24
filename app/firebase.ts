@@ -23,7 +23,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth()
 
@@ -35,4 +35,4 @@ export const login = (email: string, password: string) =>
 
 export const logout = () => signOut(auth)
 
-export const db = getFirestore()
+export const db = getFirestore(app)

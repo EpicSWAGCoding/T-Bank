@@ -4,15 +4,13 @@ import {
     auth,
     db,
     login as firebaseLogin,
-    logout as firebaseLogout,
+    logout as firebaseLogout, register,
     register as firebaseRegister,
 } from '../firebase';
 import {
-    addDoc,
     collection,
-    CollectionReference,
-    DocumentData,
-} from '@firebase/firestore';
+    addDoc
+} from "firebase/firestore";
 import { onAuthStateChanged, User } from 'firebase/auth';
 
 interface IUser {
@@ -38,11 +36,9 @@ export const AuthProvider: FC = ({ children }) => {
     const registerHandler = async (email: string, password: string) => {
         setIsLoading(true);
         try {
-            const { user } = await firebaseRegister(email, password);
+            const { user } = await register(email, password);
 
-            const usersCollection: CollectionReference<IUser> = collection<IUser>(db, 'users');
-
-            await addDoc(usersCollection, {
+            await addDoc(collection(db, 'users'), {
                 _id: user.uid,
                 displayName: 'No name',
             });

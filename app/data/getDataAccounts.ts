@@ -1,0 +1,1 @@
+export const accountss = require('./accounts.json');

@@ -1,0 +1,1 @@
+export const storiess = require('./stories.json');

@@ -1,10 +1,11 @@
-import React, {FC, useState} from 'react';
-import {Button, Text, View} from "react-native";
+import React, { FC, useState } from 'react';
+import { Pressable, Text, View } from "react-native";
 import tw from 'tailwind-rn';
-import {styleCenter} from "../../layout/Layout";
-import {useAuth} from "../../../hooks/useAuth";
+import { styleCenter } from "../../layout/Layout";
+import { useAuth } from "../../../hooks/useAuth";
 import Loader from "../../ui/Loader";
 import Field from "../../ui/Field";
+import Button from "../../ui/Button";
 
 interface IData {
     email: string
@@ -12,13 +13,18 @@ interface IData {
 }
 
 const Auth: FC = () => {
-    const {isLoading} = useAuth()
+    const { isLoading, login, register } = useAuth()
 
     const [data, setData] = useState<IData>({} as IData)
     const [isReg, setIsReg] = useState(false)
 
-    const authHandler = () => {
+    const authHandler = async () => {
+        const {email, password} = data
 
+        if(isReg) await register(email, password)
+        else await login(email, password)
+
+        setData({} as IData)
     }
 
     return (
@@ -44,6 +50,12 @@ const Auth: FC = () => {
                         />
 
                         <Button onPress={authHandler} title={`Let's go`} />
+
+                        <Pressable onPress={() => setIsReg(!isReg)}>
+                            <Text style={tw('text-gray-800 opacity-30 text-right text-sm')}>
+                                {isReg ? 'Login' : 'Register'}
+                            </Text>
+                        </Pressable>
 
                     </>}
                 </View>
