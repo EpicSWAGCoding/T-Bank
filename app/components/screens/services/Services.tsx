@@ -1,12 +1,18 @@
-import React, { FC } from 'react';
-import { Text, View } from "react-native";
+import {Text, View} from 'react-native';
+import Layout from "../../layout/Layout";
+import tw from "tailwind-rn";
+import {services} from "./data";
+import {ServiceItem} from "./serviceItem/ServiceItem";
 
-const Services: FC = () => {
+export const Services = () => {
     return (
-        <View>
-            <Text>Services</Text>
-        </View>
+        <Layout>
+            <Text style={tw('text-center text-lg mb-6')}>Moscow</Text>
+            <View style={tw('flex-row flex-wrap justify-center')}>
+                {services.map(service => (
+                    <ServiceItem key={service.title + Date.now()} service={service} />
+                ))}
+            </View>
+        </Layout>
     );
 };
-
-export default Services;

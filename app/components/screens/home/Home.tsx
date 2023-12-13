@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Text, View } from "react-native";
 import Layout from "../../layout/Layout";
 import Header from "./Header";
 import Stories from "./stories/Stories";
 import Accounts from "./accounts/Accounts";
+import {ApplyNewProduct} from "./accounts/apply-new-product/ApplyNewProduct";
 
 const Home: FC = () => {
     return (
@@ -11,7 +11,7 @@ const Home: FC = () => {
             <Header />
             <Stories />
             <Accounts />
-            <Text>Home</Text>
+            <ApplyNewProduct />
         </Layout>
     );
 };

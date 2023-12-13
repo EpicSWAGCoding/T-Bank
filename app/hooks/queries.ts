@@ -33,3 +33,9 @@ export const getAccounts = () => {
         }
     `)
 }
+
+export const getMessages = () => {
+    return sanityQuery(`
+    *[_type == "Message"]
+    `)
+}
