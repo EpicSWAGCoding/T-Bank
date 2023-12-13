@@ -1,24 +1,34 @@
-import {useEffect, useState} from "react";
-import { IAccount } from "./types";
-import {collection, onSnapshot, orderBy, query} from "@firebase/firestore";
-import {db} from "../../../../firebase";
-import {where} from "firebase/firestore";
-import {useAuth} from "../../../../hooks/useAuth";
+import { useEffect, useState } from "react";
+import {getAccounts} from "../../../../hooks/queries";
 
-export const useAccounts = () => {
-    const {user} = useAuth()
+const useAccounts = () => {
+    const [accounts, setAccounts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const [accounts, setAccounts] = useState<IAccount[]>([])
-    const [isLoading, setIsLoading] = useState(false)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Вызов функции получения данных аккаунтов
+                const data = await getAccounts();
 
-    // useEffect(() => onSnapshot(query(collection(db, 'accounts'), where('userId', '==', user?.uid)), snapshot => {
-    //     setAccounts(snapshot.docs.map(d => ({
-    //         _id: d.id,
-    //         ...d.data()
-    //     }) as IAccount))
-    //
-    //     setIsLoading(false)
-    // } ), [])
+                // Обработка данных
+                if (data && Array.isArray(data) && data.length > 0) {
+                    setAccounts(data);
+                    setIsLoading(false);
+                } else {
+                    console.error("Данные аккаунтов не найдены");
+                    setIsLoading(false);
+                }
+            } catch (error) {
+                console.error("Ошибка при получении данных аккаунтов", error);
+                setIsLoading(false);
+            }
+        };
 
-    return {accounts, isLoading}
-}
+        fetchData(); // Вызываем функцию fetchData, чтобы она выполнялась при монтировании компонента
+    }, []); // Пустой массив зависимостей гарантирует выполнение useEffect только один раз при монтировании компонента
+
+    return { isLoading, accounts };
+};
+
+export default useAccounts;

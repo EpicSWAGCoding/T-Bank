@@ -1,11 +1,18 @@
 import React, {FC} from 'react';
-import { IAccount } from "../types";
+import {Text, View} from "react-native";
+import {IAccount} from "../types";
+import tw from "tailwind-rn";
+import Currency from "./Currency";
+import Balance from "./Balance";
+import ImageCard from "./ImageCard";
 
 const AccountItem: FC<{ account: IAccount }> = ({ account }) => {
     return (
-        <div>
-
-        </div>
+        <View style={tw('flex-row items-center justify-between mb-7')}>
+            <Currency currency={account.currency} />
+            <Balance account={account} />
+            <ImageCard account={account} />
+        </View>
     );
 };
 

@@ -13,9 +13,9 @@ import tw from "tailwind-rn";
 
 const Profile: FC = () => {
     const { logout } = useAuth()
-    const { isLoading: isProfileLoading, name, setName, profile} = useProfile()
+    const { isLoading: isProfileLoading, user, setUser, profile} = useProfile()
 
-    const {isLoading, isSuccess, updateProfile} = useUpdateProfile(name, profile.docId)
+    const {isLoading, isSuccess, updateProfile} = useUpdateProfile()
 
     return (
         <Layout>
@@ -31,7 +31,16 @@ const Profile: FC = () => {
                 {
                     (isProfileLoading || isLoading) ? ( <Loader /> ) : (<>
 
-                    <Field onChange={setName} val={name} placeholder="Enter name" />
+                        <Field
+                            onChange={(newValue: string) =>
+                                setUser((prevUser) => ({
+                                    ...(prevUser as { name: string }),
+                                    name: newValue,
+                                }))
+                            }
+                            val={user?.name ?? ''}
+                            placeholder="Enter name"
+                        />
                     <Button onPress={updateProfile} title="Update profile" />
                     <Button onPress={logout} title="Logout" colors={['bg-gray-200', '#D6D8DB']} />
 

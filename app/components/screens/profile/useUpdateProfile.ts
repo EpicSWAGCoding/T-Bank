@@ -1,10 +1,8 @@
 import {useState} from "react";
 import {Alert} from "react-native";
-import {db} from "../../../firebase";
-import {doc, updateDoc} from "@firebase/firestore";
 import {useAuth} from "../../../hooks/useAuth";
 
-export const useUpdateProfile = (name: string, docId: string) => {
+export const useUpdateProfile = () => {
 
     const {user} = useAuth()
 
@@ -18,7 +16,7 @@ export const useUpdateProfile = (name: string, docId: string) => {
 
         try {
 
-            const docRef = doc(db, 'users', docId)
+            // const docRef = doc(db, 'users', docId)
 
             // await updateDoc(docRef, {
             //     displayName: name

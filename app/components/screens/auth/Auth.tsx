@@ -6,6 +6,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import Loader from "../../ui/Loader";
 import Field from "../../ui/Field";
 import Button from "../../ui/Button";
+import {useAuthContext} from "../../../providers/AuthContext";
 
 interface IData {
     email: string
@@ -14,18 +15,20 @@ interface IData {
 
 const Auth: FC = () => {
     const { isLoading, login, register } = useAuth()
+    const { setAuthEmail } = useAuthContext();
 
     const [data, setData] = useState<IData>({} as IData)
     const [isReg, setIsReg] = useState(false)
 
     const authHandler = async () => {
-        const {email, password} = data
+        const { email, password } = data;
 
-        if(isReg) await register(email, password)
-        else await login(email, password)
+        if (isReg) await register(email, password);
+        else await login(email, password);
 
-        setData({} as IData)
-    }
+        setData({} as IData);
+        setAuthEmail(email); // Установка email в контекст
+    };
 
     return (
         <View style={styleCenter}>
@@ -56,7 +59,6 @@ const Auth: FC = () => {
                                 {isReg ? 'Login' : 'Register'}
                             </Text>
                         </Pressable>
-
                     </>}
                 </View>
             </View>
